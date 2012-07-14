@@ -50,11 +50,32 @@
         result = [self popOperand] + [self popOperand];
     } else if ([@"*" isEqualToString:operation]) {
         result = [self popOperand] * [self popOperand];        
-    }
+    } else if ([@"-" isEqualToString:operation]) {
+        double subtrahend = [self popOperand];
+        result = [self popOperand] - subtrahend;        
+    } else if ([@"/" isEqualToString:operation]) {
+        double divisor = [self popOperand];
+        if (!divisor) return 0;
+        result = [self popOperand] / divisor;        
+    } else if ([operation isEqualToString:@"sin"]) 
+        result = sin([self popOperand]);
+    else if ([operation isEqualToString:@"cos"]) result = cos([self popOperand]);
+    else if ([operation isEqualToString:@"sqrt"]) {
+        double number = [self popOperand];
+        if (number < 0) return 0;
+        result = sqrt(number);
+    } else if ([operation isEqualToString:@"π"]) result = M_PI;
+
     
     [self pushOperand:result];
     
     return result;
+}
+
+
+- (void) clearStack
+{
+    [self.operandStack removeAllObjects];
 }
 
 @end
