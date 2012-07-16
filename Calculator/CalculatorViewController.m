@@ -55,7 +55,7 @@
     
     self.history.text = [CalculatorBrain descriptionOfProgram:self.brain.program];
     
-    self.display.text = [NSString stringWithFormat:@"%g",
+    self.display.text = [NSString stringWithFormat:@"%@",
         [CalculatorBrain runProgram:self.brain.program 
                 usingVariableValues:self.testVariableValues]];    
 }

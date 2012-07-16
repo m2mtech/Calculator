@@ -14,17 +14,17 @@
 - (void)pushOperation:(NSString *)operation;
 - (void)pushVariable:(NSString *)variable;
 
-- (double)performOperation:(NSString *)operation;
-- (double)performOperation:(NSString *)operation
-       usingVariableValues:(NSDictionary *)variableValues;
+- (id)performOperation:(NSString *)operation;
+- (id)performOperation:(NSString *)operation
+   usingVariableValues:(NSDictionary *)variableValues;
 - (void)clearStack;
 - (void)clearLastItem;
 
 @property (readonly) id program;
 
-+ (double)runProgram:(id)program;
-+ (double)runProgram:(id)program 
- usingVariableValues:(NSDictionary *)variableValues;
++ (id)runProgram:(id)program;
++ (id)runProgram:(id)program 
+   usingVariableValues:(NSDictionary *)variableValues;
 + (NSSet *)variablesUsedInProgram:(id)program;
 + (NSString *)descriptionOfProgram:(id)program;
 + (BOOL)isOperation:(NSString *)operation;

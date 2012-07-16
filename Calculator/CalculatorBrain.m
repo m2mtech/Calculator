@@ -86,7 +86,7 @@
     return result;
 }
 
-+ (double)popOperandOffStack:(id)stack
++ (id)popOperandOffStack:(id)stack
 {
     double result = 0;
     id topOffStack = [stack lastObject];
@@ -95,33 +95,41 @@
         result = [topOffStack doubleValue];
     } else if ([topOffStack isKindOfClass:[NSString class]]) {
         NSString *operation = topOffStack;
-        if ([operation isEqualToString:@"+"]) {
-            result = [self popOperandOffStack:stack] + [self popOperandOffStack:stack];
-        } else if ([@"*" isEqualToString:operation]) {
-            result = [self popOperandOffStack:stack] * [self popOperandOffStack:stack];        
-        } else if ([@"-" isEqualToString:operation]) {
-            double subtrahend = [self popOperandOffStack:stack];
-            result = [self popOperandOffStack:stack] - subtrahend;        
-        } else if ([@"/" isEqualToString:operation]) {
-            double divisor = [self popOperandOffStack:stack];
-            if (!divisor) return 0;
-            result = [self popOperandOffStack:stack] / divisor;        
-        } else if ([operation isEqualToString:@"sin"]) 
-            result = sin([self popOperandOffStack:stack]);
-        else if ([operation isEqualToString:@"cos"]) result = cos([self popOperandOffStack:stack]);
+        id firstOperand;
+        double firstNumber;
+        id secondOperand;
+        double secondNumber;
+        if ([self isTwoOperandOperation:operation]) {
+            firstOperand = [self popOperandOffStack:stack];
+            if ([firstOperand isKindOfClass:[NSString class]]) return firstOperand;
+            secondOperand = [self popOperandOffStack:stack];
+            if ([secondOperand isKindOfClass:[NSString class]]) return secondOperand;
+            firstNumber = [firstOperand doubleValue];
+            secondNumber = [secondOperand doubleValue];
+        }
+        if ([self isSingleOperandOperation:operation]) {
+            firstOperand = [self popOperandOffStack:stack];
+            if ([firstOperand isKindOfClass:[NSString class]]) return firstOperand;
+            firstNumber = [firstOperand doubleValue];
+        }                        
+        if ([operation isEqualToString:@"+"]) result = firstNumber + secondNumber;
+        else if ([operation isEqualToString:@"*"]) result = firstNumber * secondNumber;
+        else if ([operation isEqualToString:@"-"]) result = secondNumber - firstNumber;
+        else if ([operation isEqualToString:@"/"]) {
+            if (!firstNumber) return @"division by zero";
+            result = secondNumber / firstNumber;
+        } else if ([operation isEqualToString:@"sin"]) result = sin(firstNumber);
+        else if ([operation isEqualToString:@"cos"]) result = cos(firstNumber);
         else if ([operation isEqualToString:@"sqrt"]) {
-            double number = [self popOperandOffStack:stack];
-            if (number < 0) return 0;
-            result = sqrt(number);
+            if (firstNumber < 0) return @"sqrt of negative number";
+            result = sqrt(firstNumber);
         } else if ([operation isEqualToString:@"π"]) result = M_PI;
-        else if ([operation isEqualToString:@"+/-"]) 
-            result = -[self popOperandOffStack:stack];        
-    }
-    
-    return result;
+        else if ([operation isEqualToString:@"+/-"]) result = -firstNumber;        
+    }    
+    return [NSNumber numberWithDouble:result];
 }
 
-+ (double)runProgram:(id)program
++ (id)runProgram:(id)program
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
@@ -130,7 +138,7 @@
     return [self popOperandOffStack:stack];
 }
 
-+ (double)runProgram:(id)program 
++ (id)runProgram:(id)program 
  usingVariableValues:(NSDictionary *)variableValues 
 {
     NSMutableArray *stack;
@@ -195,13 +203,13 @@
     [self.programStack addObject:variable];    
 }
 
-- (double)performOperation:(NSString *)operation
+- (id)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
     return [CalculatorBrain runProgram:self.program];
 }
 
-- (double)performOperation:(NSString *)operation 
+- (id)performOperation:(NSString *)operation 
        usingVariableValues:(NSDictionary *)variableValues
 {
     [self.programStack addObject:operation];
