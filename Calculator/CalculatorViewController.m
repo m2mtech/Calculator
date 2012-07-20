@@ -8,6 +8,8 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
+#import "SplitViewBarButtonItemPresenter.h"
 
 @interface CalculatorViewController ()
 
@@ -32,6 +34,42 @@
 {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.splitViewController.delegate = self;
+}
+
+- (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
+{
+    id detailVC = [self.splitViewController.viewControllers lastObject];
+    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) detailVC = nil;
+    return detailVC;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)svc 
+   shouldHideViewController:(UIViewController *)vc 
+              inOrientation:(UIInterfaceOrientation)orientation
+{
+    return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc 
+     willHideViewController:(UIViewController *)aViewController 
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem 
+       forPopoverController:(UIPopoverController *)pc
+{
+    barButtonItem.title = self.title;
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc 
+     willShowViewController:(UIViewController *)aViewController 
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
 }
 
 - (BOOL)userIsInTheMiddleOfEnteringAFloat
@@ -98,6 +136,7 @@
 }
 
 - (IBAction)variablePressed:(UIButton *)sender {
+    if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
     [self.brain pushVariable:sender.currentTitle];
     [self updateCalculatorView];
 }
@@ -138,6 +177,26 @@
         self.testVariableValues = nil;        
     }
     [self updateCalculatorView];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ShowGraph"]) {
+        if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
+        [segue.destinationViewController setProgram:self.brain.program];
+    }        
+}
+
+- (IBAction)graphButtonPressed {
+    id gVC = [self.splitViewController.viewControllers lastObject];
+    if (![gVC isKindOfClass:[GraphViewController class]]) return;
+    [gVC setProgram:self.brain.program];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (self.splitViewController) return YES; 
+    else return UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
 
 - (void)viewDidUnload {
