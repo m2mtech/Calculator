@@ -14,6 +14,7 @@
 
 @property (nonatomic) CGFloat scale; // 1 = 100%
 @property (nonatomic) CGPoint origin; // point to place in the middle of the screen
+@property (nonatomic) BOOL drawDots; // YES: draw dots; NO: draw lines
 
 @end
 

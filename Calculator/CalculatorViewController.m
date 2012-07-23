@@ -17,6 +17,7 @@
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringAFloat;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @property (nonatomic, strong) NSDictionary *testVariableValues;
+@property (weak, nonatomic) IBOutlet UISwitch *drawLinesSwitch;
 
 @end
 
@@ -29,6 +30,7 @@
 @synthesize userIsInTheMiddleOfEnteringAFloat;
 @synthesize brain = _brain;
 @synthesize testVariableValues = _testVariableValues;
+@synthesize drawLinesSwitch = _drawLinesSwitch;
 
 - (CalculatorBrain *)brain
 {
@@ -183,6 +185,7 @@
 {
     if ([segue.identifier isEqualToString:@"ShowGraph"]) {
         if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
+        [segue.destinationViewController setDrawDots:!self.drawLinesSwitch.on];
         [segue.destinationViewController setProgram:self.brain.program];
     }        
 }
@@ -190,6 +193,7 @@
 - (IBAction)graphButtonPressed {
     id gVC = [self.splitViewController.viewControllers lastObject];
     if (![gVC isKindOfClass:[GraphViewController class]]) return;
+    [gVC setDrawDots:!self.drawLinesSwitch.on];
     [gVC setProgram:self.brain.program];
 }
 
@@ -202,6 +206,7 @@
 - (void)viewDidUnload {
     [self setHistory:nil];
     [self setUsedVariables:nil];
+    [self setDrawLinesSwitch:nil];
     [super viewDidUnload];
 }
 @end

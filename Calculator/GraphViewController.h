@@ -15,5 +15,6 @@
 @property (nonatomic, strong) CalculatorBrain *program;
 @property (nonatomic) CGFloat scale;
 @property (nonatomic) CGPoint origin;
+@property (nonatomic) BOOL drawDots;
 
 @end

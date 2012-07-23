@@ -28,6 +28,7 @@
 @synthesize program = _program;
 @synthesize scale = _scale;
 @synthesize origin = _origin;
+@synthesize drawDots = _drawDots;
 
 - (CGFloat)scale 
 {
