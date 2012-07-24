@@ -8,14 +8,19 @@
 
 #import "GraphViewController.h"
 #import "GraphView.h"
+#import "CalculatorProgramsTableViewController.h"
 
 #define DEFAULT_NUMBER_OF_POINTS_PER_UNIT 50.0
+#define FAVORITES_KEY @"GraphViewController.Favorites"
 
-@interface GraphViewController () <GraphViewDataSource>
+@interface GraphViewController () <GraphViewDataSource, CalculatorProgramsTableViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet GraphView *graphView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *formula;
+// added after lecture to prevent multiple popovers
+@property (nonatomic, strong) UIPopoverController *popoverController; 
+
 
 @end
 
@@ -24,6 +29,7 @@
 @synthesize toolbar = _toolbar;
 @synthesize formula = _formula;
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+@synthesize popoverController;
 
 @synthesize program = _program;
 @synthesize scale = _scale;
@@ -110,6 +116,68 @@
 {
     return [CalculatorBrain runProgram:self.program usingVariableValues:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:xValue], @"x", nil]];
 }
+
+- (IBAction)addToFavorites 
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
+    if (!favorites) favorites = [NSMutableArray array];
+    [favorites addObject:self.program];
+    [defaults setObject:favorites forKey:FAVORITES_KEY];
+    [defaults synchronize];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Favorites Graphs"]) {
+        // this if statement added after lecture to prevent multiple popovers
+        // appearing if the user keeps touching the Favorites button over and over
+        // simply remove the last one we put up each time we segue to a new one
+        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
+            UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *) segue;
+            [self.popoverController dismissPopoverAnimated:YES];
+            // might want to be popover's delegate and self.popoverController = nil on dismiss?
+            self.popoverController = popoverSegue.popoverController;
+        }
+        NSArray *programs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITES_KEY];
+        [segue.destinationViewController setPrograms:programs];
+        [segue.destinationViewController setDelegate:self];
+    }
+}
+
+- (void)calculatorProgramsTableViewController:(CalculatorProgramsTableViewController *)sender choseProgram:(id)program
+{
+    self.program = program;
+    // if you wanted to close the popover when a graph was selected
+    // you could uncomment the following line
+    // you'd probably want to set self.popoverController = nil after doing so
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
+    
+    // added after lecture to support iPhone
+    [self.navigationController popViewControllerAnimated:YES]; 
+}
+
+// added after lecture to support deletion from the table
+// deletes the given program from NSUserDefaults (including duplicates)
+// then resets the Model of the sender
+- (void)calculatorProgramsTableViewController:(CalculatorProgramsTableViewController *)sender
+                               deletedProgram:(id)program
+{
+    NSString *deletedProgramDescription = [CalculatorBrain descriptionOfProgram:program];
+    NSMutableArray *favorites = [NSMutableArray array];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    for (id program in [defaults objectForKey:FAVORITES_KEY]) {
+        if (![[CalculatorBrain descriptionOfProgram:program] 
+              isEqualToString:deletedProgramDescription]) {
+            [favorites addObject:program];
+        }
+    }
+    [defaults setObject:favorites forKey:FAVORITES_KEY];
+    [defaults synchronize];
+    sender.programs = favorites;
+}
+
 
 - (void)handleSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {

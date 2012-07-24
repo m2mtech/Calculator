@@ -20,6 +20,7 @@
 - (void)clearStack;
 - (void)clearLastItem;
 
+// program is always guaranteed to be a Property List
 @property (readonly) id program;
 
 + (id)runProgram:(id)program;

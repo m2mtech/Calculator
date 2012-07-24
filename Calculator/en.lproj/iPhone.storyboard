@@ -440,12 +440,35 @@
                             <view contentMode="redraw" id="Vzb-0J-WYE" customClass="GraphView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="61b-9j-B1P">
+                                        <rect key="frame" x="157" y="359" width="143" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Add to Favorites">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addToFavorites" destination="N6g-Mx-LE1" eventType="touchUpInside" id="2HX-lk-r3e"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Graph" id="XtI-xn-b94"/>
+                    <navigationItem key="navigationItem" title="Graph" id="XtI-xn-b94">
+                        <barButtonItem key="rightBarButtonItem" title="Favorites" id="0Xl-Mw-1BB">
+                            <connections>
+                                <segue destination="Ef7-V1-w1K" kind="push" identifier="Show Favorites Graphs" id="aVQ-V3-3MR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="graphView" destination="Vzb-0J-WYE" id="kJU-Ok-bzd"/>
                     </connections>
@@ -471,8 +494,52 @@
             </objects>
             <point key="canvasLocation" x="104" y="295"/>
         </scene>
+        <!--Calculator Programs Table View Controller-->
+        <scene sceneID="VPT-no-XPR">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FRL-0c-JKR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="Ef7-V1-w1K" customClass="CalculatorProgramsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iSG-V0-PvM">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Calculator Program Description" textLabel="3VD-hm-LQ4" style="IBUITableViewCellStyleDefault" id="7t0-U7-b4Z">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3VD-hm-LQ4">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Ef7-V1-w1K" id="fxj-RB-WRY"/>
+                            <outlet property="delegate" destination="Ef7-V1-w1K" id="bbF-vK-yxU"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Zij-qj-ZiU"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="200"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1668" y="295"/>
+        </scene>
     </scenes>
     <classes>
+        <class className="CalculatorProgramsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorProgramsTableViewController.h"/>
+        </class>
         <class className="CalculatorViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
             <relationships>

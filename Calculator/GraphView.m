@@ -120,21 +120,24 @@
     CGPoint value, point;
     for (NSInteger xPixel = 0; xPixel <= widthInPixel; xPixel += pixelDelta) {
         if (self.userIsInTheMiddleOfGesture) {
-            value = [[self.valueCache objectAtIndex:xPixel] CGPointValue];
+            id result = [self.valueCache objectAtIndex:xPixel];
+            if (![result isKindOfClass:[NSValue class]]) continue;
+            value = [result CGPointValue];
             point.x = [self xPointFromValue:value.x inRect:area originAtPoint:origin scale:scale];
             point.y = [self yPointFromValue:value.y inRect:area originAtPoint:origin scale:scale];
         } else {
+            if (xPixel == 0) [self.valueCache removeAllObjects];            
             value.x = [self xValueFromPixel:xPixel inRect:area 
                               originAtPoint:origin scale:scale];
             id result = [self.dataSource calculateYValueFromXValue:value.x];
             if (![result isKindOfClass:[NSNumber class]]) {
+                [self.valueCache addObject:result];
                 start = YES;
                 continue;
             }
             value.y = [result doubleValue];
             point.x = [self xPointFromPixel:xPixel inRect:area];
             point.y = [self yPointFromValue:value.y inRect:area originAtPoint:origin scale:scale];
-            if (xPixel == 0) [self.valueCache removeAllObjects];            
             [self.valueCache addObject:[NSValue valueWithCGPoint:value]];
         }
         if (self.dataSource.drawDots) {                        

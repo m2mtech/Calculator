@@ -16,6 +16,7 @@
 		5B4D54F615B19C4900C2D299 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B4D54F415B19C4900C2D299 /* iPhone.storyboard */; };
 		5B4D54F915B19C4A00C2D299 /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D54F815B19C4A00C2D299 /* CalculatorViewController.m */; };
 		5B4D550115B1A8FB00C2D299 /* CalculatorBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4D550015B1A8FB00C2D299 /* CalculatorBrain.m */; };
+		5B8AC08015BDF3E500460D33 /* CalculatorProgramsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8AC07F15BDF3E500460D33 /* CalculatorProgramsTableViewController.m */; };
 		5BAB48D615B6EA50009B1DF3 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB48D515B6EA50009B1DF3 /* GraphViewController.m */; };
 		5BAB48DA15B70786009B1DF3 /* AxesDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB48D915B70786009B1DF3 /* AxesDrawer.m */; };
 		5BAB48DD15B70889009B1DF3 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BAB48DC15B70889009B1DF3 /* GraphView.m */; };
@@ -38,6 +39,8 @@
 		5B4D54F815B19C4A00C2D299 /* CalculatorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorViewController.m; sourceTree = "<group>"; };
 		5B4D54FF15B1A8FB00C2D299 /* CalculatorBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorBrain.h; sourceTree = "<group>"; };
 		5B4D550015B1A8FB00C2D299 /* CalculatorBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorBrain.m; sourceTree = "<group>"; };
+		5B8AC07E15BDF3E500460D33 /* CalculatorProgramsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorProgramsTableViewController.h; sourceTree = "<group>"; };
+		5B8AC07F15BDF3E500460D33 /* CalculatorProgramsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorProgramsTableViewController.m; sourceTree = "<group>"; };
 		5BAB48D415B6EA50009B1DF3 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		5BAB48D515B6EA50009B1DF3 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
 		5BAB48D815B70786009B1DF3 /* AxesDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AxesDrawer.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				5BAB48D515B6EA50009B1DF3 /* GraphViewController.m */,
 				5BAB48DB15B70889009B1DF3 /* GraphView.h */,
 				5BAB48DC15B70889009B1DF3 /* GraphView.m */,
+				5B8AC07E15BDF3E500460D33 /* CalculatorProgramsTableViewController.h */,
+				5B8AC07F15BDF3E500460D33 /* CalculatorProgramsTableViewController.m */,
 				5BAB48D715B70786009B1DF3 /* AxesDrawer */,
 				5B4D54E915B19C4900C2D299 /* Supporting Files */,
 			);
@@ -203,6 +208,7 @@
 				5BAB48D615B6EA50009B1DF3 /* GraphViewController.m in Sources */,
 				5BAB48DA15B70786009B1DF3 /* AxesDrawer.m in Sources */,
 				5BAB48DD15B70889009B1DF3 /* GraphView.m in Sources */,
+				5B8AC08015BDF3E500460D33 /* CalculatorProgramsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +285,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calculator/Calculator-Prefix.pch";
 				INFOPLIST_FILE = "Calculator/Calculator-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -292,7 +298,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calculator/Calculator-Prefix.pch";
 				INFOPLIST_FILE = "Calculator/Calculator-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
